@@ -7,50 +7,57 @@
 
 <style>
 :root {
-  --red: #e10600;
+  --ikl-red: #e10600;
   --green: #22c55e;
 }
 
+/* RESET */
 * {
   box-sizing: border-box;
 }
 
+/* BODY + KV */
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: url("Assets/kv-ikl-fall-2025.jpg") center/cover no-repeat fixed;
+  font-family: Arial, sans-serif;
+  background: url("/Assets/kv-ikl-fall-2025.jpg") center / cover no-repeat fixed;
   color: #fff;
 }
 
+/* OVERLAY */
 .overlay {
   min-height: 100vh;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.35),
-      rgba(0,0,0,0.8)
-    );
-  padding: 40px 16px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.35),
+    rgba(0,0,0,0.85)
+  );
+  padding: 50px 16px;
 }
 
+/* CONTAINER */
 .container {
   max-width: 1100px;
   margin: auto;
 }
 
+/* TITLE */
 h1 {
   text-align: center;
   margin-bottom: 30px;
   letter-spacing: 1px;
 }
 
+/* FORM BOX */
 .form-box {
-  background: rgba(10,10,10,0.85);
-  border-radius: 14px;
-  padding: 25px;
-  backdrop-filter: blur(6px);
+  background: rgba(15,15,15,0.78);
+  border-radius: 18px;
+  padding: 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
 }
 
+/* INPUT */
 label {
   display: block;
   margin-top: 18px;
@@ -67,31 +74,34 @@ input, select {
   color: #fff;
 }
 
-/* ROLE SECTION */
+/* ROLE */
 .role-section {
-  margin-top: 35px;
+  margin-top: 40px;
 }
 
 .role-title {
-  font-size: 18px;
-  margin-bottom: 12px;
-  border-left: 4px solid var(--red);
-  padding-left: 10px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  border-left: 4px solid var(--ikl-red);
+  padding-left: 12px;
 }
 
+/* GRID */
 .player-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 18px;
 }
 
+/* PLAYER CARD */
 .player-card {
   position: relative;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   border: 2px solid transparent;
-  transition: all 0.25s ease;
+  transition: 0.25s;
 }
 
 .player-card img {
@@ -99,34 +109,56 @@ input, select {
   display: block;
 }
 
+/* GRADIENT */
+.player-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(225,6,0,0.35),
+    transparent
+  );
+  opacity: 0;
+  transition: 0.25s;
+}
+
+.player-card:hover::before {
+  opacity: 1;
+}
+
+.player-card:hover {
+  transform: scale(1.04);
+  border-color: var(--ikl-red);
+}
+
+/* INFO */
 .player-info {
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 8px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  padding: 10px;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.9),
+    transparent
+  );
 }
 
 .player-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
 }
 
 .player-team {
-  font-size: 11px;
-  opacity: 0.8;
+  font-size: 12px;
+  opacity: 0.75;
 }
 
-/* Hover */
-.player-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--red);
-}
-
-/* Selected */
+/* SELECTED */
 .player-card.selected {
   border-color: var(--green);
-  box-shadow: 0 0 16px rgba(34,197,94,0.7);
+  box-shadow: 0 0 22px rgba(34,197,94,0.9);
 }
 
 .player-card.selected::after {
@@ -142,12 +174,12 @@ input, select {
   font-weight: bold;
 }
 
-/* Submit */
+/* BUTTON */
 button {
   width: 100%;
-  margin-top: 35px;
+  margin-top: 40px;
   padding: 14px;
-  background: var(--red);
+  background: var(--ikl-red);
   border: none;
   border-radius: 10px;
   color: #fff;
@@ -165,6 +197,7 @@ button:hover {
 <body>
 <div class="overlay">
 <div class="container">
+
 <h1>IKL FALL 2025 – DREAM TEAM</h1>
 
 <div class="form-box">
@@ -186,70 +219,30 @@ button:hover {
 <label>Instagram Profile Link</label>
 <input type="url" placeholder="https://instagram.com/username" required>
 
-<!-- ROLE TEMPLATE -->
+<!-- ROLES -->
 <div class="role-section">
   <div class="role-title">CLASH LANE</div>
-  <div class="player-grid">
-    <div class="player-card" data-role="clash">
-      <img src="Players/clash1.png">
-      <div class="player-info">
-        <div class="player-name">AE Clausen</div>
-        <div class="player-team">Alter Ego</div>
-      </div>
-    </div>
-  </div>
+  <div class="player-grid" id="clash"></div>
 </div>
 
 <div class="role-section">
   <div class="role-title">FARM LANE</div>
-  <div class="player-grid">
-    <div class="player-card" data-role="farm">
-      <img src="Players/farm1.png">
-      <div class="player-info">
-        <div class="player-name">Player A</div>
-        <div class="player-team">Team X</div>
-      </div>
-    </div>
-  </div>
+  <div class="player-grid" id="farm"></div>
 </div>
 
 <div class="role-section">
   <div class="role-title">JUNGLER</div>
-  <div class="player-grid">
-    <div class="player-card" data-role="jungle">
-      <img src="Players/jungle1.png">
-      <div class="player-info">
-        <div class="player-name">Player B</div>
-        <div class="player-team">Team Y</div>
-      </div>
-    </div>
-  </div>
+  <div class="player-grid" id="jungle"></div>
 </div>
 
 <div class="role-section">
   <div class="role-title">MID LANE</div>
-  <div class="player-grid">
-    <div class="player-card" data-role="mid">
-      <img src="Players/mid1.png">
-      <div class="player-info">
-        <div class="player-name">Player C</div>
-        <div class="player-team">Team Z</div>
-      </div>
-    </div>
-  </div>
+  <div class="player-grid" id="mid"></div>
 </div>
 
 <div class="role-section">
   <div class="role-title">ROAMER</div>
-  <div class="player-grid">
-    <div class="player-card" data-role="roam">
-      <img src="Players/roam1.png">
-      <div class="player-info">
-        <div class="player-name">Player D</div>
-        <div class="player-team">Team W</div>
-      </div>
-    </div>
-  </div>
+  <div class="player-grid" id="roam"></div>
 </div>
 
 <button type="button">SUBMIT DREAM TEAM</button>
@@ -259,15 +252,27 @@ button:hover {
 </div>
 
 <script>
-document.querySelectorAll('.player-card').forEach(card => {
-  card.addEventListener('click', () => {
-    const role = card.dataset.role;
-    document.querySelectorAll(`.player-card[data-role="${role}"]`)
-      .forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-  });
-});
-</script>
+fetch("/players.json")
+  .then(res => res.json())
+  .then(players => {
+    players.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "player-card";
+      card.dataset.role = p.role;
 
-</body>
-</html>
+      card.innerHTML = `
+        <img src="/Players/${p.image}">
+        <div class="player-info">
+          <div class="player-name">${p.player}</div>
+          <div class="player-team">${p.team}</div>
+        </div>
+      `;
+
+      card.onclick = () => {
+        document
+          .querySelectorAll(\`.player-card[data-role="${p.role}"]\`)
+          .forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+      };
+
+      document.getElementById(p.role
