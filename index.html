@@ -252,27 +252,41 @@ button:hover {
 </div>
 
 <script>
-fetch("/players.json")
-  .then(res => res.json())
+fetch("./players.json")
+  .then(res => {
+    if (!res.ok) {
+      throw new Error("players.json not found");
+    }
+    return res.json();
+  })
   .then(players => {
     players.forEach(p => {
+      const grid = document.getElementById(p.role);
+      if (!grid) return;
+
       const card = document.createElement("div");
       card.className = "player-card";
       card.dataset.role = p.role;
 
       card.innerHTML = `
-        <img src="/Players/${p.image}">
+        <img src="./Players/${p.image}">
         <div class="player-info">
           <div class="player-name">${p.player}</div>
           <div class="player-team">${p.team}</div>
         </div>
       `;
 
-      card.onclick = () => {
+      card.addEventListener("click", () => {
         document
           .querySelectorAll(\`.player-card[data-role="${p.role}"]\`)
           .forEach(c => c.classList.remove("selected"));
         card.classList.add("selected");
-      };
+      });
 
-      document.getElementById(p.role
+      grid.appendChild(card);
+    });
+  })
+  .catch(err => {
+    console.error("ERROR LOAD PLAYERS:", err);
+  });
+</script>
