@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dream Team Campaign</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+    form {
+      background: #020617;
+      padding: 25px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      margin-top: 20px;
+      background: #22c55e;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<form>
+  <h2>Dream Team Registration</h2>
+
+  <label>Email Address</label>
+  <input type="email" required>
+
+  <label>Week Registration</label>
+  <select required>
+    <option value="">Pilih Week</option>
+    <option>Week 1</option>
+    <option>Week 2</option>
+    <option>Week 3</option>
+  </select>
+
+  <label>Link Instagram</label>
+  <input type="url" placeholder="https://instagram.com/username" required>
+
+  <label>Clash Lane</label>
+  <select required>
+    <option value="">Pilih Player</option>
+  </select>
+
+  <label>Farm Lane</label>
+  <select required>
+    <option value="">Pilih Player</option>
+  </select>
+
+  <label>Jungler</label>
+  <select required>
+    <option value="">Pilih Player</option>
+  </select>
+
+  <label>Mid Lane</label>
+  <select required>
+    <option value="">Pilih Player</option>
+  </select>
+
+  <label>Roamer</label>
+  <select required>
+    <option value="">Pilih Player</option>
+  </select>
+
+  <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
