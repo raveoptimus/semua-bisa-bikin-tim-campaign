@@ -219,6 +219,7 @@ button:hover { opacity: 0.9; }
 </div>
 </div>
 
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   fetch("https://iklspring2026.vercel.app/players.json")
     .then(res => res.json())
@@ -254,6 +255,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => console.error("PLAYER LOAD FAILED:", err));
 });
 </script>
-
+  
 </body>
 </html>
