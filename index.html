@@ -11,20 +11,15 @@
   --green: #22c55e;
 }
 
-/* RESET */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-/* BODY + KV */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: url("/Assets/kv-ikl-fall-2025.jpg") center / cover no-repeat fixed;
+  background: url("./Assets/kv-ikl-fall-2025.jpg") center / cover no-repeat fixed;
   color: #fff;
 }
 
-/* OVERLAY */
 .overlay {
   min-height: 100vh;
   background: linear-gradient(
@@ -35,20 +30,17 @@ body {
   padding: 50px 16px;
 }
 
-/* CONTAINER */
 .container {
   max-width: 1100px;
   margin: auto;
 }
 
-/* TITLE */
 h1 {
   text-align: center;
   margin-bottom: 30px;
   letter-spacing: 1px;
 }
 
-/* FORM BOX */
 .form-box {
   background: rgba(15,15,15,0.78);
   border-radius: 18px;
@@ -57,7 +49,6 @@ h1 {
   backdrop-filter: blur(12px);
 }
 
-/* INPUT */
 label {
   display: block;
   margin-top: 18px;
@@ -74,27 +65,21 @@ input, select {
   color: #fff;
 }
 
-/* ROLE */
-.role-section {
-  margin-top: 40px;
-}
+.role-section { margin-top: 40px; }
 
 .role-title {
   font-size: 20px;
-  letter-spacing: 1px;
   margin-bottom: 14px;
   border-left: 4px solid var(--ikl-red);
   padding-left: 12px;
 }
 
-/* GRID */
 .player-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 18px;
 }
 
-/* PLAYER CARD */
 .player-card {
   position: relative;
   cursor: pointer;
@@ -109,40 +94,28 @@ input, select {
   display: block;
 }
 
-/* GRADIENT */
 .player-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(225,6,0,0.35),
-    transparent
-  );
+  background: linear-gradient(to top, rgba(225,6,0,0.35), transparent);
   opacity: 0;
   transition: 0.25s;
 }
 
-.player-card:hover::before {
-  opacity: 1;
-}
+.player-card:hover::before { opacity: 1; }
 
 .player-card:hover {
   transform: scale(1.04);
   border-color: var(--ikl-red);
 }
 
-/* INFO */
 .player-info {
   position: absolute;
   bottom: 0;
   width: 100%;
   padding: 10px;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.9),
-    transparent
-  );
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
 }
 
 .player-name {
@@ -155,7 +128,6 @@ input, select {
   opacity: 0.75;
 }
 
-/* SELECTED */
 .player-card.selected {
   border-color: var(--green);
   box-shadow: 0 0 22px rgba(34,197,94,0.9);
@@ -174,7 +146,6 @@ input, select {
   font-weight: bold;
 }
 
-/* BUTTON */
 button {
   width: 100%;
   margin-top: 40px;
@@ -188,9 +159,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  opacity: 0.9;
-}
+button:hover { opacity: 0.9; }
 </style>
 </head>
 
@@ -219,7 +188,6 @@ button:hover {
 <label>Instagram Profile Link</label>
 <input type="url" placeholder="https://instagram.com/username" required>
 
-<!-- ROLES -->
 <div class="role-section">
   <div class="role-title">CLASH LANE</div>
   <div class="player-grid" id="clash"></div>
@@ -252,41 +220,39 @@ button:hover {
 </div>
 
 <script>
-fetch("./players.json")
-  .then(res => {
-    if (!res.ok) {
-      throw new Error("players.json not found");
-    }
-    return res.json();
-  })
-  .then(players => {
-    players.forEach(p => {
-      const grid = document.getElementById(p.role);
-      if (!grid) return;
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("./players.json")
+    .then(res => res.json())
+    .then(players => {
+      players.forEach(p => {
+        const grid = document.getElementById(p.role);
+        if (!grid) return;
 
-      const card = document.createElement("div");
-      card.className = "player-card";
-      card.dataset.role = p.role;
+        const card = document.createElement("div");
+        card.className = "player-card";
+        card.dataset.role = p.role;
 
-      card.innerHTML = `
-        <img src="./Players/${p.image}">
-        <div class="player-info">
-          <div class="player-name">${p.player}</div>
-          <div class="player-team">${p.team}</div>
-        </div>
-      `;
+        card.innerHTML = `
+          <img src="./Players/${p.image}">
+          <div class="player-info">
+            <div class="player-name">${p.player}</div>
+            <div class="player-team">${p.team}</div>
+          </div>
+        `;
 
-      card.addEventListener("click", () => {
-        document
-          .querySelectorAll(\`.player-card[data-role="${p.role}"]\`)
-          .forEach(c => c.classList.remove("selected"));
-        card.classList.add("selected");
+        card.onclick = () => {
+          document
+            .querySelectorAll(\`.player-card[data-role="${p.role}"]\`)
+            .forEach(c => c.classList.remove("selected"));
+          card.classList.add("selected");
+        };
+
+        grid.appendChild(card);
       });
-
-      grid.appendChild(card);
-    });
-  })
-  .catch(err => {
-    console.error("ERROR LOAD PLAYERS:", err);
-  });
+    })
+    .catch(err => console.error("LOAD PLAYER ERROR:", err));
+});
 </script>
+
+</body>
+</html>
