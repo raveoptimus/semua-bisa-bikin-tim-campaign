@@ -1,0 +1,374 @@
+[
+ {
+   "role": "farm",
+   "player": "RRQ.Harpist",
+   "team": "RRQ",
+   "image": "Harpist.png"
+ },
+ {
+   "role": "jungle",
+   "player": "RRQ.Bai",
+   "team": "RRQ",
+   "image": "Bai.png"
+ },
+ {
+   "role": "mid",
+   "player": "RRQ.Lexx.",
+   "team": "RRQ",
+   "image": "Lexx.png"
+ },
+ {
+   "role": "clash",
+   "player": "RRQ.Xinglin",
+   "team": "RRQ",
+   "image": "Xinglin.png"
+ },
+ {
+   "role": "roam",
+   "player": "RRQ.663",
+   "team": "RRQ",
+   "image": "663.png"
+ },
+ {
+   "role": "clash",
+   "player": "RRQ.Frederica",
+   "team": "RRQ",
+   "image": "Frederica.png"
+ },
+ {
+   "role": "farm",
+   "player": "BTR.Zaan",
+   "team": "BTR",
+   "image": "Zaan.png"
+ },
+ {
+   "role": "jungle",
+   "player": "BTR.ZhanQ",
+   "team": "BTR",
+   "image": "ZhanQ.png"
+ },
+ {
+   "role": "mid",
+   "player": "BTR.Niel",
+   "team": "BTR",
+   "image": "Niel.png"
+ },
+ {
+   "role": "clash",
+   "player": "BTR.Tufzzz",
+   "team": "BTR",
+   "image": "Tufzzz.png"
+ },
+ {
+   "role": "roam",
+   "player": "BTR.Nineteen",
+   "team": "BTR",
+   "image": "Nineteen.png"
+ },
+ {
+   "role": "clash",
+   "player": "BTR.Saule",
+   "team": "BTR",
+   "image": "Saule.png"
+ },
+ {
+   "role": "roam",
+   "player": "BTR.Ormson",
+   "team": "BTR",
+   "image": "Ormson.png"
+ },
+ {
+   "role": "mid",
+   "player": "ONIC.Fadelboy",
+   "team": "ONIC",
+   "image": "Fadelboy.png"
+ },
+ {
+   "role": "roam",
+   "player": "ONIC.Falah",
+   "team": "ONIC",
+   "image": "Falah.png"
+ },
+ {
+   "role": "farm",
+   "player": "ONIC.Ahem",
+   "team": "ONIC",
+   "image": "Ahem.png"
+ },
+ {
+   "role": "clash",
+   "player": "ONIC.Switch",
+   "team": "ONIC",
+   "image": "Switch.png"
+ },
+ {
+   "role": "jungle",
+   "player": "ONIC.AZ1",
+   "team": "ONIC",
+   "image": "AZ1.png"
+ },
+ {
+   "role": "farm",
+   "player": "ONIC.Kine",
+   "team": "ONIC",
+   "image": "Kine.png"
+ },
+ {
+   "role": "roam",
+   "player": "AE.DECOY",
+   "team": "AE",
+   "image": "DECOY.png"
+ },
+ {
+   "role": "clash",
+   "player": "AE.CLAUSEN",
+   "team": "AE",
+   "image": "CLAUSEN.png"
+ },
+ {
+   "role": "farm",
+   "player": "AE.1Tut",
+   "team": "AE",
+   "image": "1Tut.png"
+ },
+ {
+   "role": "jungle",
+   "player": "AE.ZenShao",
+   "team": "AE",
+   "image": "ZenShao.png"
+ },
+ {
+   "role": "mid",
+   "player": "AE.niubii",
+   "team": "AE",
+   "image": "niubii.png"
+ },
+ {
+   "role": "clash",
+   "player": "AE.Icytail",
+   "team": "AE",
+   "image": "Icytail.png"
+ },
+ {
+   "role": "mid",
+   "player": "KAGE.Senkooo",
+   "team": "KAGE",
+   "image": "Senkooo.png"
+ },
+ {
+   "role": "clash",
+   "player": "KAGE.iHanss",
+   "team": "KAGE",
+   "image": "iHanss.png"
+ },
+ {
+   "role": "jungle",
+   "player": "KAGE.Wiraww",
+   "team": "KAGE",
+   "image": "Wiraww.png"
+ },
+ {
+   "role": "farm",
+   "player": "KAGE.LanFeng",
+   "team": "KAGE",
+   "image": "LanFeng.png"
+ },
+ {
+   "role": "roam",
+   "player": "KAGE.Lu",
+   "team": "KAGE",
+   "image": "Lu.png"
+ },
+ {
+   "role": "clash",
+   "player": "KAGE.ZeroZero",
+   "team": "KAGE",
+   "image": "ZeroZero.png"
+ },
+ {
+   "role": "roam",
+   "player": "DMT.EL",
+   "team": "DMT",
+   "image": "EL.png"
+ },
+ {
+   "role": "mid",
+   "player": "DMT.JerL",
+   "team": "DMT",
+   "image": "JerL.png"
+ },
+ {
+   "role": "clash",
+   "player": "DMT.CipengZ",
+   "team": "DMT",
+   "image": "CipengZ.png"
+ },
+ {
+   "role": "jungle",
+   "player": "DMT.TianX",
+   "team": "DMT",
+   "image": "TianX.png"
+ },
+ {
+   "role": "farm",
+   "player": "DMT.Toshi",
+   "team": "DMT",
+   "image": "Toshi.png"
+ },
+ {
+   "role": "farm",
+   "player": "DMT.anaktuyulz",
+   "team": "DMT",
+   "image": "anaktuyulz.png"
+ },
+ {
+   "role": "jungle",
+   "player": "TLN.SRD",
+   "team": "TLN",
+   "image": "SRD.png"
+ },
+ {
+   "role": "clash",
+   "player": "TLN.Choux",
+   "team": "TLN",
+   "image": "Choux.png"
+ },
+ {
+   "role": "roam",
+   "player": "TLN.Xena",
+   "team": "TLN",
+   "image": "Xena.png"
+ },
+ {
+   "role": "mid",
+   "player": "TLN.Lcc2",
+   "team": "TLN",
+   "image": "Lcc2.png"
+ },
+ {
+   "role": "farm",
+   "player": "TLN.Luochenn",
+   "team": "TLN",
+   "image": "Luochenn.png"
+ },
+ {
+   "role": "jungle",
+   "player": "TLN.Tokyo",
+   "team": "TLN",
+   "image": "Tokyo.png"
+ },
+ {
+   "role": "jungle",
+   "player": "MHD.Zhe",
+   "team": "MHD",
+   "image": "Zhe.png"
+ },
+ {
+   "role": "farm",
+   "player": "MHD.Enyxx",
+   "team": "MHD",
+   "image": "Enyxx.png"
+ },
+ {
+   "role": "mid",
+   "player": "MHD.Axiorety",
+   "team": "MHD",
+   "image": "Axiorety.png"
+ },
+ {
+   "role": "roam",
+   "player": "MHD.Newack",
+   "team": "MHD",
+   "image": "Newack.png"
+ },
+ {
+   "role": "clash",
+   "player": "MHD.K1",
+   "team": "MHD",
+   "image": "K1.png"
+ },
+ {
+   "role": "roam",
+   "player": "MHD.Monss",
+   "team": "MHD",
+   "image": "Monss.png"
+ },
+ {
+   "role": "jungle",
+   "player": "VESA.Nev",
+   "team": "VESA",
+   "image": "Nev.png"
+ },
+ {
+   "role": "mid",
+   "player": "VESA.JenMyth",
+   "team": "VESA",
+   "image": "JenMyth.png"
+ },
+ {
+   "role": "clash",
+   "player": "VESA.Bal",
+   "team": "VESA",
+   "image": "Bal.png"
+ },
+ {
+   "role": "roam",
+   "player": "VESA.JunYong",
+   "team": "VESA",
+   "image": "JunYong.png"
+ },
+ {
+   "role": "farm",
+   "player": "VESA.Raven",
+   "team": "VESA",
+   "image": "Raven.png"
+ },
+ {
+   "role": "roam",
+   "player": "VESA.Barudak",
+   "team": "VESA",
+   "image": "Barudak.png"
+ },
+ {
+   "role": "jungle",
+   "player": "VESA.Sieg",
+   "team": "VESA",
+   "image": "Sieg.png"
+ },
+ {
+   "role": "mid",
+   "player": "RVM.Acaaaa",
+   "team": "RVM",
+   "image": "Acaaaa.png"
+ },
+ {
+   "role": "farm",
+   "player": "RVM.Imagination",
+   "team": "RVM",
+   "image": "Imagination.png"
+ },
+ {
+   "role": "roam",
+   "player": "RVM.BiLjane",
+   "team": "RVM",
+   "image": "BiLjane.png"
+ },
+ {
+   "role": "clash",
+   "player": "RVM.L",
+   "team": "RVM",
+   "image": "L.png"
+ },
+ {
+   "role": "jungle",
+   "player": "RVM.Sasakii",
+   "team": "RVM",
+   "image": "Sasakii.png"
+ },
+ {
+   "role": "farm",
+   "player": "RVM.KidoyZ",
+   "team": "RVM",
+   "image": "KidoyZ.png"
+ }
+]
