@@ -7,7 +7,7 @@
 
 <style>
 :root {
-  --ikl-red: #e10600;
+  --red: #e10600;
   --green: #22c55e;
 }
 
@@ -20,33 +20,35 @@ body {
   color: #fff;
 }
 
+/* OVERLAY */
 .overlay {
   min-height: 100vh;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.35),
-    rgba(0,0,0,0.85)
+    rgba(0,0,0,0.4),
+    rgba(0,0,0,0.9)
   );
-  padding: 50px 16px;
+  padding: 48px 16px;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1150px;
   margin: auto;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
   letter-spacing: 1px;
 }
 
+/* FORM */
 .form-box {
-  background: rgba(15,15,15,0.78);
+  background: rgba(12,12,12,0.82);
   border-radius: 18px;
   padding: 32px;
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
 }
 
 label {
@@ -65,21 +67,26 @@ input, select {
   color: #fff;
 }
 
-.role-section { margin-top: 40px; }
+/* ROLE */
+.role-section {
+  margin-top: 42px;
+}
 
 .role-title {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 14px;
-  border-left: 4px solid var(--ikl-red);
+  border-left: 4px solid var(--red);
   padding-left: 12px;
 }
 
+/* GRID */
 .player-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
 }
 
+/* CARD */
 .player-card {
   position: relative;
   cursor: pointer;
@@ -87,6 +94,7 @@ input, select {
   overflow: hidden;
   border: 2px solid transparent;
   transition: 0.25s;
+  background: #000;
 }
 
 .player-card img {
@@ -94,43 +102,56 @@ input, select {
   display: block;
 }
 
+/* OVERLAY GRADIENT */
 .player-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(225,6,0,0.35), transparent);
+  background: linear-gradient(
+    to top,
+    rgba(225,6,0,0.4),
+    transparent
+  );
   opacity: 0;
   transition: 0.25s;
 }
 
-.player-card:hover::before { opacity: 1; }
-
-.player-card:hover {
-  transform: scale(1.04);
-  border-color: var(--ikl-red);
+.player-card:hover::before {
+  opacity: 1;
 }
 
+.player-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--red);
+}
+
+/* INFO */
 .player-info {
   position: absolute;
   bottom: 0;
   width: 100%;
   padding: 10px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85),
+    transparent
+  );
 }
 
 .player-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
 }
 
 .player-team {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.75;
 }
 
+/* SELECTED */
 .player-card.selected {
   border-color: var(--green);
-  box-shadow: 0 0 22px rgba(34,197,94,0.9);
+  box-shadow: 0 0 20px rgba(34,197,94,0.8);
 }
 
 .player-card.selected::after {
@@ -146,11 +167,12 @@ input, select {
   font-weight: bold;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   margin-top: 40px;
   padding: 14px;
-  background: var(--ikl-red);
+  background: var(--red);
   border: none;
   border-radius: 10px;
   color: #fff;
@@ -159,7 +181,9 @@ button {
   cursor: pointer;
 }
 
-button:hover { opacity: 0.9; }
+button:hover {
+  opacity: 0.9;
+}
 </style>
 </head>
 
@@ -221,21 +245,18 @@ button:hover { opacity: 0.9; }
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("https://iklspring2026.vercel.app/players.json")
+  fetch("./players.json")
     .then(res => res.json())
     .then(players => {
-      console.log("PLAYERS LOADED:", players);
-
       players.forEach(p => {
         const grid = document.getElementById(p.role);
         if (!grid) return;
 
         const card = document.createElement("div");
         card.className = "player-card";
-        card.dataset.role = p.role;
 
         card.innerHTML = `
-          <img src="https://iklspring2026.vercel.app/Players/${p.image}">
+          <img src="./Players/${p.image}" alt="${p.player}">
           <div class="player-info">
             <div class="player-name">${p.player}</div>
             <div class="player-team">${p.team}</div>
@@ -243,8 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         card.onclick = () => {
-          document
-            .querySelectorAll(\`.player-card[data-role="${p.role}"]\`)
+          grid.querySelectorAll(".player-card")
             .forEach(c => c.classList.remove("selected"));
           card.classList.add("selected");
         };
@@ -252,9 +272,12 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.appendChild(card);
       });
     })
-    .catch(err => console.error("PLAYER LOAD FAILED:", err));
+    .catch(err => {
+      console.error("FAILED LOAD PLAYERS:", err);
+      alert("Failed to load player data");
+    });
 });
 </script>
-  
+
 </body>
 </html>
