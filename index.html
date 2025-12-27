@@ -179,7 +179,8 @@ button {
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-YWflS7ZUauerR664Oumj7yNWRl9e2R5RjTCyLh3OZwZOetxIreWBPDyf8Wmdqrm-6w/exec";
-const selected = {};
+
+const REQUIRED_ROLES = ["clash", "farm", "jungle", "mid", "roam"];
 
 fetch("./players.json")
   .then(res => res.json())
@@ -202,10 +203,14 @@ fetch("./players.json")
       `;
 
       card.onclick = () => {
-        grid.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
+        grid.querySelectorAll(".player-card")
+          .forEach(c => c.classList.remove("selected"));
+
         card.classList.add("selected");
-        selected[p.role] = p.player;
-        document.querySelector(`input[name="${p.role}"]`).value = p.player;
+
+        document.querySelector(
+          `input[name="${p.role}"]`
+        ).value = p.player;
       };
 
       grid.appendChild(card);
@@ -215,16 +220,34 @@ fetch("./players.json")
 document.getElementById("dreamForm").addEventListener("submit", e => {
   e.preventDefault();
 
+  // ✅ VALIDASI ROLE
+  const missing = [];
+
+  REQUIRED_ROLES.forEach(role => {
+    const value = document.querySelector(`input[name="${role}"]`).value;
+    if (!value) missing.push(role.toUpperCase());
+  });
+
+  if (missing.length > 0) {
+    alert(
+      "Please select player for all roles:\n\n" +
+      missing.join(", ")
+    );
+    return;
+  }
+
+  // ✅ SUBMIT KE GOOGLE SHEETS
   fetch(SCRIPT_URL, {
     method: "POST",
     body: new FormData(e.target)
   })
   .then(() => {
-    alert("Dream Team submitted!");
+    alert("Dream Team submitted successfully!");
     e.target.reset();
-    document.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
+    document.querySelectorAll(".player-card")
+      .forEach(c => c.classList.remove("selected"));
   })
-  .catch(() => alert("Submit failed"));
+  .catch(() => alert("Submit failed, please try again"));
 });
 </script>
 
