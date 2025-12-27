@@ -7,7 +7,7 @@
 
 <style>
 :root {
-  --ikl-red: #e10600;
+  --red: #e10600;
   --green: #22c55e;
 }
 
@@ -22,7 +22,7 @@ body {
 
 .overlay {
   min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.9));
+  background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.85));
   padding: 50px 16px;
 }
 
@@ -33,7 +33,7 @@ body {
 
 h1 {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 .form-box {
@@ -44,7 +44,7 @@ h1 {
 }
 
 label {
-  margin-top: 16px;
+  margin-top: 18px;
   display: block;
 }
 
@@ -58,17 +58,14 @@ input, select {
   color: #fff;
 }
 
-.role-section {
-  margin-top: 42px;
-}
+.role-section { margin-top: 40px; }
 
 .role-title {
-  font-size: 28px;
-  font-weight: bold;
-  border-left: 6px solid var(--ikl-red);
-  padding-left: 14px;
+  font-size: 26px;
+  font-weight: 800;
   margin-bottom: 18px;
-  letter-spacing: 1px;
+  border-left: 6px solid var(--red);
+  padding-left: 16px;
 }
 
 .player-grid {
@@ -78,16 +75,40 @@ input, select {
 }
 
 .player-card {
+  position: relative;
   cursor: pointer;
   border-radius: 14px;
   overflow: hidden;
   border: 2px solid transparent;
   transition: .25s;
-  position: relative;
 }
 
 .player-card img {
   width: 100%;
+  display: block;
+}
+
+.player-card:hover {
+  transform: scale(1.05);
+  border-color: var(--red);
+}
+
+.player-card.selected {
+  border-color: var(--green);
+  box-shadow: 0 0 25px rgba(34,197,94,.9);
+}
+
+.player-card.selected::after {
+  content: "✓ SELECTED";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--green);
+  color: #000;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
 .player-info {
@@ -98,20 +119,15 @@ input, select {
   background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
 }
 
-.player-card.selected {
-  border-color: var(--green);
-  box-shadow: 0 0 20px rgba(34,197,94,.9);
-}
-
 button {
-  margin-top: 40px;
   width: 100%;
-  padding: 16px;
-  background: var(--ikl-red);
+  margin-top: 40px;
+  padding: 14px;
+  background: var(--red);
   border: none;
-  border-radius: 12px;
-  font-size: 18px;
+  border-radius: 10px;
   color: #fff;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -121,16 +137,15 @@ button {
 <body>
 <div class="overlay">
 <div class="container">
-
 <h1>IKL FALL 2025 – DREAM TEAM</h1>
 
 <form class="form-box" id="dreamForm">
 
-<label>Email</label>
-<input id="email" type="email" required>
+<label>Email Address</label>
+<input type="email" name="email" required>
 
-<label>Week</label>
-<select id="week" required>
+<label>Week Registration</label>
+<select name="week" required>
   <option value="">Select Week</option>
   <option>Week 1</option>
   <option>Week 2</option>
@@ -140,8 +155,15 @@ button {
   <option>Week 6</option>
 </select>
 
-<label>Instagram</label>
-<input id="instagram" type="url" required>
+<label>Instagram Profile</label>
+<input type="url" name="instagram" required>
+
+<!-- HIDDEN INPUTS -->
+<input type="hidden" name="clash">
+<input type="hidden" name="farm">
+<input type="hidden" name="jungle">
+<input type="hidden" name="mid">
+<input type="hidden" name="roam">
 
 <div class="role-section"><div class="role-title">CLASH LANE</div><div class="player-grid" id="clash"></div></div>
 <div class="role-section"><div class="role-title">FARM LANE</div><div class="player-grid" id="farm"></div></div>
@@ -150,17 +172,15 @@ button {
 <div class="role-section"><div class="role-title">ROAMER</div><div class="player-grid" id="roam"></div></div>
 
 <button type="submit">SUBMIT DREAM TEAM</button>
+</form>
 
-</div>
 </div>
 </div>
 
 <script>
-const WEB_APP_URL = "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-YWflS7ZUauerR664Oumj7yNWRl9e2R5RjTCyLh3OZwZOetxIreWBPDyf8Wmdqrm-6w/exec";
+const selected = {};
 
-const selectedPlayers = {};
-
-// LOAD PLAYERS
 fetch("./players.json")
   .then(res => res.json())
   .then(players => {
@@ -176,63 +196,35 @@ fetch("./players.json")
       card.innerHTML = `
         <img src="./Players/${p.image}">
         <div class="player-info">
-          <div class="player-name">${p.player}</div>
-          <div class="player-team">${p.team}</div>
+          <div>${p.player}</div>
+          <div style="font-size:12px;opacity:.7">${p.team}</div>
         </div>
       `;
 
       card.onclick = () => {
-        document
-          .querySelectorAll(\`.player-card[data-role="${p.role}"]\`)
-          .forEach(c => c.classList.remove("selected"));
-
+        grid.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
         card.classList.add("selected");
-        selectedPlayers[p.role] = p.player;
+        selected[p.role] = p.player;
+        document.querySelector(`input[name="${p.role}"]`).value = p.player;
       };
 
       grid.appendChild(card);
     });
   });
 
-// SUBMIT
 document.getElementById("dreamForm").addEventListener("submit", e => {
   e.preventDefault();
 
-  const requiredRoles = ["clash", "farm", "jungle", "mid", "roam"];
-  for (let role of requiredRoles) {
-    if (!selectedPlayers[role]) {
-      alert("Please select player for all roles");
-      return;
-    }
-  }
-
-  const formData = new FormData(e.target);
-
-  const payload = {
-    timestamp: new Date().toISOString(),
-    email: formData.get("email"),
-    week: formData.get("week"),
-    instagram: formData.get("instagram"),
-    clash: selectedPlayers.clash,
-    farm: selectedPlayers.farm,
-    jungle: selectedPlayers.jungle,
-    mid: selectedPlayers.mid,
-    roam: selectedPlayers.roam
-  };
-
-  fetch(WEB_APP_URL, {
+  fetch(SCRIPT_URL, {
     method: "POST",
-    body: JSON.stringify(payload)
+    body: new FormData(e.target)
   })
   .then(() => {
-    alert("✅ Dream Team submitted!");
+    alert("Dream Team submitted!");
     e.target.reset();
-    document.querySelectorAll(".player-card.selected")
-      .forEach(c => c.classList.remove("selected"));
+    document.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
   })
-  .catch(() => {
-    alert("❌ Submission failed");
-  });
+  .catch(() => alert("Submit failed"));
 });
 </script>
 
