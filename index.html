@@ -219,11 +219,12 @@ button:hover { opacity: 0.9; }
 </div>
 </div>
 
-<script>
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("./players.json")
+  fetch("https://iklspring2026.vercel.app/players.json")
     .then(res => res.json())
     .then(players => {
+      console.log("PLAYERS LOADED:", players);
+
       players.forEach(p => {
         const grid = document.getElementById(p.role);
         if (!grid) return;
@@ -233,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         card.dataset.role = p.role;
 
         card.innerHTML = `
-          <img src="./Players/${p.image}">
+          <img src="https://iklspring2026.vercel.app/Players/${p.image}">
           <div class="player-info">
             <div class="player-name">${p.player}</div>
             <div class="player-team">${p.team}</div>
@@ -250,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.appendChild(card);
       });
     })
-    .catch(err => console.error("LOAD PLAYER ERROR:", err));
+    .catch(err => console.error("PLAYER LOAD FAILED:", err));
 });
 </script>
 
