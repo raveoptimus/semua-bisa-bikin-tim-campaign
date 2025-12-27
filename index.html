@@ -248,6 +248,8 @@ button:hover {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
+  // LOAD PLAYERS (tetap sama)
   fetch("./players.json")
     .then(res => res.json())
     .then(players => {
@@ -259,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
         card.className = "player-card";
 
         card.innerHTML = `
-          <img src="./Players/${p.image}" alt="${p.player}">
+          <img src="./Players/${p.image}">
           <div class="player-info">
             <div class="player-name">${p.player}</div>
             <div class="player-team">${p.team}</div>
@@ -274,11 +276,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
         grid.appendChild(card);
       });
-    })
-    .catch(err => {
-      console.error("FAILED LOAD PLAYERS:", err);
-      alert("Failed to load player data");
     });
+
+  // SUBMIT HANDLER
+  document.querySelector("button").addEventListener("click", () => {
+    const getSelected = role =>
+      document.querySelector(`#${role} .player-card.selected .player-name`)?.innerText || "";
+
+    const payload = {
+      email: document.getElementById("email").value,
+      week: document.getElementById("week").value,
+      instagram: document.getElementById("instagram").value,
+      clash: getSelected("clash"),
+      farm: getSelected("farm"),
+      jungle: getSelected("jungle"),
+      mid: getSelected("mid"),
+      roam: getSelected("roam")
+    };
+
+    if (!payload.email || !payload.week || !payload.instagram) {
+      alert("Lengkapi data terlebih dahulu");
+      return;
+    }
+
+    fetch("https://script.google.com/macros/s/AKfycbw-YWflS7ZUauerR664Oumj7yNWRl9e2R5RjTCyLh3OZwZOetxIreWBPDyf8Wmdqrm-6w/exec", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === "success") {
+        alert("Dream Team berhasil dikirim!");
+        location.reload();
+      } else {
+        alert("Gagal submit data");
+      }
+    })
+    .catch(() => alert("Error koneksi"));
+  });
+
 });
 </script>
 
