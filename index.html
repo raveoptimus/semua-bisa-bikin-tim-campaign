@@ -1,95 +1,158 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Dream Team Campaign</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      padding: 40px;
-    }
-    form {
-      background: #020617;
-      padding: 25px;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 10px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 12px;
-      font-size: 14px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border-radius: 6px;
-      border: none;
-    }
-    button {
-      margin-top: 20px;
-      background: #22c55e;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Dream Team Selection</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0f1a;
+  color: #fff;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.role-section {
+  margin-bottom: 50px;
+}
+
+.role-title {
+  font-size: 22px;
+  margin-bottom: 15px;
+  border-left: 4px solid #e11d48;
+  padding-left: 10px;
+}
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 18px;
+}
+
+.player-card {
+  position: relative;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.player-card img {
+  width: 100%;
+  display: block;
+}
+
+.player-info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+}
+
+.player-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.player-team {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Hover */
+.player-card:hover {
+  transform: translateY(-4px);
+  border-color: #e11d48;
+}
+
+/* Selected */
+.player-card.selected {
+  border-color: #22c55e;
+  box-shadow: 0 0 18px rgba(34,197,94,0.7);
+}
+
+.player-card.selected::after {
+  content: "✓ SELECTED";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #22c55e;
+  color: #000;
+  font-size: 11px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
+<div class="container">
+<h1>Dream Team Selection</h1>
 
-<form>
-  <h2>Dream Team Registration</h2>
+<!-- CLASH LANE -->
+<div class="role-section">
+  <div class="role-title">Clash Lane</div>
+  <div class="player-grid">
+    <div class="player-card" data-role="clash">
+      <img src="players/ae-clausen.png">
+      <div class="player-info">
+        <div class="player-name">AE Clausen</div>
+        <div class="player-team">Alter Ego</div>
+      </div>
+    </div>
 
-  <label>Email Address</label>
-  <input type="email" required>
+    <div class="player-card" data-role="clash">
+      <img src="players/player2.png">
+      <div class="player-info">
+        <div class="player-name">Player B</div>
+        <div class="player-team">Team X</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <label>Week Registration</label>
-  <select required>
-    <option value="">Pilih Week</option>
-    <option>Week 1</option>
-    <option>Week 2</option>
-    <option>Week 3</option>
-  </select>
+<!-- JUNGLER -->
+<div class="role-section">
+  <div class="role-title">Jungler</div>
+  <div class="player-grid">
+    <div class="player-card" data-role="jungler">
+      <img src="players/player3.png">
+      <div class="player-info">
+        <div class="player-name">Player C</div>
+        <div class="player-team">Team Y</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <label>Link Instagram</label>
-  <input type="url" placeholder="https://instagram.com/username" required>
+</div>
 
-  <label>Clash Lane</label>
-  <select required>
-    <option value="">Pilih Player</option>
-  </select>
+<script>
+document.querySelectorAll('.player-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const role = card.dataset.role;
 
-  <label>Farm Lane</label>
-  <select required>
-    <option value="">Pilih Player</option>
-  </select>
+    document.querySelectorAll(`.player-card[data-role="${role}"]`)
+      .forEach(c => c.classList.remove('selected'));
 
-  <label>Jungler</label>
-  <select required>
-    <option value="">Pilih Player</option>
-  </select>
-
-  <label>Mid Lane</label>
-  <select required>
-    <option value="">Pilih Player</option>
-  </select>
-
-  <label>Roamer</label>
-  <select required>
-    <option value="">Pilih Player</option>
-  </select>
-
-  <button type="submit">Submit</button>
-</form>
-
+    card.classList.add('selected');
+  });
+});
+</script>
 </body>
 </html>
+
