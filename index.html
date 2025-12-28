@@ -1,300 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>IKL Fall 2025 – Dream Team</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-:root {
-  --red: #e10600;
-  --green: #22c55e;
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: url("./Assets/kv-ikl-fall-2025.jpg") center / cover no-repeat fixed;
-  color: #fff;
-}
-
-.overlay {
-  min-height: 100vh;
-  background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.85));
-  padding: 50px 16px;
-}
-
-.container {
-  max-width: 1100px;
-  margin: auto;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.form-box {
-  background: rgba(15,15,15,.8);
-  border-radius: 18px;
-  padding: 32px;
-  backdrop-filter: blur(10px);
-}
-
-label {
-  margin-top: 18px;
-  display: block;
-}
-
-input, select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: none;
-  background: #111;
-  color: #fff;
-}
-
-.role-section { margin-top: 40px; }
-
-.role-title {
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 18px;
-  border-left: 6px solid var(--red);
-  padding-left: 16px;
-}
-
-.player-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
-  gap: 18px;
-}
-
-.player-card {
-  position: relative;
-  cursor: pointer;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 2px solid transparent;
-  transition: .25s;
-}
-
-.player-card img {
-  width: 100%;
-  display: block;
-}
-
-.player-card:hover {
-  transform: scale(1.05);
-  border-color: var(--red);
-}
-
-.player-card.selected {
-  border-color: var(--green);
-  box-shadow: 0 0 25px rgba(34,197,94,.9);
-}
-
-.player-card.selected::after {
-  content: "✓ SELECTED";
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: var(--green);
-  color: #000;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: bold;
-}
-
-.player-info {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
-}
-
-/* ROLE ERROR */
-.role-section.missing {
-  border: 2px solid var(--red);
-  padding: 16px;
-  border-radius: 14px;
-  animation: pulse 1.2s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 rgba(225,6,0,.4); }
-  50% { box-shadow: 0 0 18px rgba(225,6,0,.8); }
-  100% { box-shadow: 0 0 0 rgba(225,6,0,.4); }
-}
-
-button {
-  width: 100%;
-  margin-top: 40px;
-  padding: 14px;
-  background: var(--red);
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:disabled {
-  background: #444;
-  cursor: not-allowed;
-  opacity: .6;
-}
-
-/* MODAL */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal.active { display: flex; }
-
-.modal-box {
-  background: #111;
-  border-radius: 18px;
-  padding: 32px;
-  text-align: center;
-  border: 2px solid var(--green);
-}
-</style>
-</head>
-
-<body>
-<div class="overlay">
-<div class="container">
-<h1>IKL FALL 2025 – DREAM TEAM</h1>
-
-<form class="form-box" id="dreamForm">
-
-<label>Email Address</label>
-<input type="email" name="email" required>
-
-<label>Week Registration</label>
-<select name="week" required>
-  <option value="">Select Week</option>
-  <option>Week 1</option>
-  <option>Week 2</option>
-  <option>Week 3</option>
-  <option>Week 4</option>
-  <option>Week 5</option>
-  <option>Week 6</option>
-</select>
-
-<label>Instagram Profile</label>
-<input type="url" name="instagram" required>
-
-<input type="hidden" name="clash">
-<input type="hidden" name="farm">
-<input type="hidden" name="jungle">
-<input type="hidden" name="mid">
-<input type="hidden" name="roam">
-
-<div class="role-section"><div class="role-title">CLASH LANE</div><div class="player-grid" id="clash"></div></div>
-<div class="role-section"><div class="role-title">FARM LANE</div><div class="player-grid" id="farm"></div></div>
-<div class="role-section"><div class="role-title">JUNGLER</div><div class="player-grid" id="jungle"></div></div>
-<div class="role-section"><div class="role-title">MID LANE</div><div class="player-grid" id="mid"></div></div>
-<div class="role-section"><div class="role-title">ROAMER</div><div class="player-grid" id="roam"></div></div>
-
-<button type="submit" disabled>SUBMIT DREAM TEAM</button>
-</form>
-</div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="successModal">
-  <div class="modal-box">
-    <h2 style="color:#22c55e">Dream Team Submitted!</h2>
-    <p>Thank you for participating.</p>
-    <button onclick="closeModal()">OK</button>
-  </div>
-</div>
-
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-YWflS7ZUauerR664Oumj7yNWRl9e2R5RjTCyLh3OZwZOetxIreWBPDyf8Wmdqrm-6w/exec";
-const ROLES = ["clash","farm","jungle","mid","roam"];
-const submitBtn = document.querySelector("button[type='submit']");
-
-function checkReady() {
-  submitBtn.disabled = !ROLES.every(r =>
-    document.querySelector(`input[name="${r}"]`).value
-  );
-}
-
-fetch("./players.json")
-.then(r => r.json())
-.then(players => {
-  players.forEach(p => {
-    const grid = document.getElementById(p.role);
-    if (!grid) return;
-
-    const card = document.createElement("div");
-    card.className = "player-card";
-    card.innerHTML = `
-      <img src="./Players/${p.image}">
-      <div class="player-info">
-        <div>${p.player}</div>
-        <div style="font-size:12px;opacity:.7">${p.team}</div>
-      </div>
-    `;
-
-    card.onclick = () => {
-      grid.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
-      card.classList.add("selected");
-      document.querySelector(`input[name="${p.role}"]`).value = p.player;
-      grid.closest(".role-section").classList.remove("missing");
-      checkReady();
-    };
-
-    grid.appendChild(card);
-  });
-});
-
-document.getElementById("dreamForm").addEventListener("submit", e => {
-  e.preventDefault();
-
-  let firstMissing = null;
-  ROLES.forEach(r => {
-    const input = document.querySelector(`input[name="${r}"]`);
-    const section = document.getElementById(r).closest(".role-section");
-    if (!input.value) {
-      section.classList.add("missing");
-      if (!firstMissing) firstMissing = section;
+  <meta charset="UTF-8">
+  <title>IKL Fall 2025 – Dream Team</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build your dream team for IKL Fall 2025 and submit your picks!">
+  <link rel="icon" href="./Assets/favicon.ico" type="image/x-icon"> <!-- Tambah favicon jika ada -->
+  <style>
+    :root {
+      --red: #ff2a2a; /* Red lebih vibrant */
+      --green: #4ade80; /* Green lebih soft */
+      --bg-dark: #0a0a0a;
+      --text-dark: #fff;
+      --bg-light: #f4f4f5;
+      --text-light: #111;
+      --bg-mode: var(--bg-dark);
+      --text-mode: var(--text-dark);
     }
-  });
+    /* Light mode */
+    body.light {
+      --bg-mode: var(--bg-light);
+      --text-mode: var(--text-light);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("./Assets/kv-ikl-fall-2025.jpg") center / cover no-repeat fixed;
+      color: var(--text-mode);
+    }
+    .overlay {
+      min-height: 100vh;
+      background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.85));
+      padding: 50px 16px;
+      overflow-y: auto; /* Improve scroll */
+    }
+    body.light .overlay { background: linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.85)); }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .form-box {
+      background: rgba(15,15,15,.8);
+      border-radius: 18px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+    }
+    body.light .form-box { background: rgba(244,244,245,.8); }
+    label {
+      margin-top: 18px;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: none;
+      background: #111;
+      color: #fff;
+    }
+    body.light input, body.light select { background: #ddd; color: #111; }
+    .role-section { margin-top: 40px; }
+    .role-title {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      border-left: 6px solid var(--red);
+      padding-left: 16px;
+    }
+    .player-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); /* Lebih baik di mobile */
+      gap: 18px;
+    }
+    .player-card {
+      position: relative;
+      cursor: pointer;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; /* Animasi halus */
+    }
+    .player-card img {
+      width: 100%;
+      display: block;
+      loading: lazy; /* Lazy load images */
+    }
+    .player-card:hover {
+      transform: scale(1.05) rotate(2deg); /* Tambah rotate untuk fun */
+      border-color: var(--red);
+    }
+    .player-card.selected {
+      border-color: var(--green);
+      box-shadow: 0 0 25px rgba(74,222,128,.9);
+      animation: glow 1.5s infinite alternate; /* Animasi glow */
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 10px rgba(74,222,128,.5); }
+      to { box-shadow: 0 0 30px rgba(74,222,128,1); }
+    }
+    .player-card.selected::after {
+      content: "✓ SELECTED";
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--green);
+      color: #000;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .player-info {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
+    }
+    body.light .player-info { background: linear-gradient(to top, rgba(255,255,255,.9), transparent); color: #111; }
+    /* ROLE ERROR */
+    .role-section.missing {
+      border: 2px solid var(--red);
+      padding: 16px;
+      border-radius: 14px;
+      animation: pulse 1.2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 rgba(255,42,42,.4); }
+      50% { box-shadow: 0 0 18px rgba(255,42,42,.8); }
+      100% { box-shadow: 0 0 0 rgba(255,42,42,.4); }
+    }
+    button {
+      width: 100%;
+      margin-top: 40px;
+      padding: 14px;
+      background: var(--red);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background .3s, transform .3s;
+    }
+    button:hover { transform: scale(1.02); background: #ff4d4d; }
+    button:disabled {
+      background: #444;
+      cursor: not-allowed;
+      opacity: .6;
+    }
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal.active { display: flex; }
+    .modal-box {
+      background: #111;
+      border-radius: 18px;
+      padding: 32px;
+      text-align: center;
+      border: 2px solid var(--green);
+      max-width: 400px;
+    }
+    body.light .modal-box { background: #ddd; border-color: #22c55e; color: #111; }
+    /* Loading Spinner */
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--red);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    /* Toggle Mode */
+    .mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    body.light .mode-toggle { background: #ccc; color: #111; }
+    /* Footer for Admin Link */
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body class="dark"> <!-- Default dark mode -->
+  <div class="mode-toggle" onclick="toggleMode()">Switch to Light Mode</div>
+  <div class="overlay">
+    <div class="container">
+      <h1>IKL FALL 2025 – DREAM TEAM</h1>
+      <form class="form-box" id="dreamForm">
+        <label>Email Address</label>
+        <input type="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"> <!-- Regex untuk email valid -->
+        <label>Week Registration</label>
+        <select name="week" required>
+          <option value="">Select Week</option>
+          <option>Week 1</option>
+          <option>Week 2</option>
+          <option>Week 3</option>
+          <option>Week 4</option>
+          <option>Week 5</option>
+          <option>Week 6</option>
+        </select>
+        <label>Instagram Profile</label>
+        <input type="url" name="instagram" required pattern="https?://(www\.)?instagram\.com/.*"> <!-- Regex untuk IG URL -->
+        <input type="hidden" name="clash">
+        <input type="hidden" name="farm">
+        <input type="hidden" name="jungle">
+        <input type="hidden" name="mid">
+        <input type="hidden" name="roam">
+        <div class="role-section"><div class="role-title">CLASH LANE</div><div class="player-grid" id="clash"></div></div>
+        <div class="role-section"><div class="role-title">FARM LANE</div><div class="player-grid" id="farm"></div></div>
+        <div class="role-section"><div class="role-title">JUNGLER</div><div class="player-grid" id="jungle"></div></div>
+        <div class="role-section"><div class="role-title">MID LANE</div><div class="player-grid" id="mid"></div></div>
+        <div class="role-section"><div class="role-title">ROAMER</div><div class="player-grid" id="roam"></div></div>
+        <button type="submit" disabled>SUBMIT DREAM TEAM</button>
+      </form>
+    </div>
+  </div>
+  <!-- SUCCESS MODAL -->
+  <div class="modal" id="successModal">
+    <div class="modal-box">
+      <h2 style="color:var(--green)">Dream Team Submitted!</h2>
+      <p>Thank you for participating.</p>
+      <button onclick="closeModal('successModal')">OK</button>
+    </div>
+  </div>
+  <!-- ERROR MODAL -->
+  <div class="modal" id="errorModal">
+    <div class="modal-box" style="border-color:var(--red)">
+      <h2 style="color:var(--red)">Submission Failed!</h2>
+      <p>Please try again later.</p>
+      <button onclick="closeModal('errorModal')">OK</button>
+    </div>
+  </div>
+  <!-- CONFIRM MODAL -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-box">
+      <h2>Confirm Your Dream Team</h2>
+      <div id="preview"></div>
+      <button onclick="submitForm()">Yes, Submit</button>
+      <button onclick="closeModal('confirmModal')">Cancel</button>
+    </div>
+  </div>
+  <!-- FOOTER WITH ADMIN LINK -->
+  <footer>
+    <a href="/admin" style="color:var(--red)">Admin Dashboard (Coming Soon)</a>
+  </footer>
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw-YWflS7ZUauerR664Oumj7yNWRl9e2R5RjTCyLh3OZwZOetxIreWBPDyf8Wmdqrm-6w/exec";
+    const ROLES = ["clash","farm","jungle","mid","roam"];
+    const submitBtn = document.querySelector("button[type='submit']");
+    let formData; // Untuk simpan data sementara
 
-  if (firstMissing) {
-    firstMissing.scrollIntoView({behavior:"smooth",block:"center"});
-    return;
-  }
+    function checkReady() {
+      submitBtn.disabled = !ROLES.every(r => document.querySelector(`input[name="${r}"]`).value);
+    }
 
-  fetch(SCRIPT_URL,{method:"POST",body:new FormData(e.target)})
-  .then(() => {
-    document.getElementById("successModal").classList.add("active");
-    e.target.reset();
-    submitBtn.disabled = true;
-    document.querySelectorAll(".player-card").forEach(c=>c.classList.remove("selected"));
-  });
-});
+    // Fetch players with error handling and loader
+    const grids = ROLES.map(r => document.getElementById(r));
+    grids.forEach(grid => grid.innerHTML = '<div class="loader"></div>'); // Tambah loader
+    fetch("./players.json")
+      .then(r => r.json())
+      .then(players => {
+        grids.forEach(grid => grid.innerHTML = ''); // Hapus loader
+        players.forEach(p => {
+          const grid = document.getElementById(p.role);
+          if (!grid) return;
+          const card = document.createElement("div");
+          card.className = "player-card";
+          card.innerHTML = `
+            <img src="./Players/${p.image}" alt="${p.player} from ${p.team}" loading="lazy">
+            <div class="player-info">
+              <div>${p.player}</div>
+              <div style="font-size:12px;opacity:.7">${p.team}</div>
+            </div>
+          `;
+          card.onclick = () => {
+            grid.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+            document.querySelector(`input[name="${p.role}"]`).value = p.player;
+            grid.closest(".role-section").classList.remove("missing");
+            checkReady();
+          };
+          grid.appendChild(card);
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        grids.forEach(grid => grid.innerHTML = '<p style="color:var(--red)">Failed to load players. Please refresh.</p>');
+      });
 
-function closeModal(){
-  document.getElementById("successModal").classList.remove("active");
-}
-</script>
+    // Form submit: Tampilkan confirm modal dulu
+    document.getElementById("dreamForm").addEventListener("submit", e => {
+      e.preventDefault();
+      let firstMissing = null;
+      ROLES.forEach(r => {
+        const input = document.querySelector(`input[name="${r}"]`);
+        const section = document.getElementById(r).closest(".role-section");
+        if (!input.value) {
+          section.classList.add("missing");
+          if (!firstMissing) firstMissing = section;
+        }
+      });
+      if (firstMissing) {
+        firstMissing.scrollIntoView({behavior:"smooth",block:"center"});
+        return;
+      }
+      // Preview di confirm modal
+      const preview = document.getElementById("preview");
+      preview.innerHTML = ROLES.map(r => `<p><strong>${r.toUpperCase()}:</strong> ${document.querySelector(`input[name="${r}"]`).value}</p>`).join('');
+      document.getElementById("confirmModal").classList.add("active");
+      formData = new FormData(e.target); // Simpan data
+    });
+
+    // Fungsi submit setelah confirm
+    function submitForm() {
+      closeModal('confirmModal');
+      submitBtn.innerHTML = '<div class="loader" style="width:20px;height:20px;border-width:3px;"></div> Submitting...'; // Loader di button
+      fetch(SCRIPT_URL, {method: "POST", body: formData})
+        .then(() => {
+          document.getElementById("successModal").classList.add("active");
+          document.getElementById("dreamForm").reset();
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = 'SUBMIT DREAM TEAM';
+          document.querySelectorAll(".player-card").forEach(c => c.classList.remove("selected"));
+        })
+        .catch(() => {
+          document.getElementById("errorModal").classList.add("active");
+          submitBtn.innerHTML = 'SUBMIT DREAM TEAM';
+        });
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+      // Hapus missing class setelah close
+      document.querySelectorAll(".role-section").forEach(s => s.classList.remove("missing"));
+    }
+
+    // Toggle dark/light mode
+    function toggleMode() {
+      document.body.classList.toggle("light");
+      document.body.classList.toggle("dark");
+      const toggle = document.querySelector(".mode-toggle");
+      toggle.textContent = document.body.classList.contains("light") ? "Switch to Dark Mode" : "Switch to Light Mode";
+    }
+  </script>
 </body>
 </html>
